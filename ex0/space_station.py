@@ -14,7 +14,6 @@ class SpaceStation(BaseModel):
 
 
 if __name__ == "__main__":
-
     print("Space Station Data Validation")
     print("========================================")
     print("Valid station created:")
