@@ -32,15 +32,14 @@ class SpaceMission(BaseModel):
     budget_millions: float = Field(ge=1.0, le=10000.0)
 
     @model_validator(mode='after')
-    def Mission_id(self):
-        if self.mission_id[0] == 'M':
+    def Mission_id(self) -> "SpaceMission":
+        if self.mission_id.startswith("M"):
             return (self)
         else:
             raise ValueError('Mission ID must start with "M"')
-        return (self)
 
     @model_validator(mode="after")
-    def member(self):
+    def member(self) -> "SpaceMission":
         commander = 0
         for cr in self.crew:
             if cr.rank is crew_ranks.captain:
@@ -51,10 +50,9 @@ class SpaceMission(BaseModel):
             return (self)
         else:
             raise ValueError("Must have at least one Commander or Captain")
-        return (self)
 
     @model_validator(mode="after")
-    def Long_missions(self):
+    def Long_missions(self) -> "SpaceMission":
         if self.duration_days > 365:
             exp = sum(1 for m in self.crew if m.years_experience >= 5)
             if exp < (len(self.crew) / 2):
@@ -63,7 +61,7 @@ need 50%' experienced crew (5+ years)")
         return (self)
 
     @model_validator(mode="after")
-    def active(self):
+    def active(self) -> "SpaceMission":
         temp = True
         for member in self.crew:
             if not member.is_active:
@@ -106,7 +104,7 @@ if __name__ == "__main__":
             mission_name="Mars Colony Establishment",
             mission_id="M2024_MARS",
             destination="Mars",
-            launch_date="20261225T153000",
+            launch_date=datetime.fromisoformat("2026-04-20T14:30:00"),
             duration_days=900,
             budget_millions=2500.0,
             crew=[member_one, member_two, member_three]
@@ -122,3 +120,4 @@ if __name__ == "__main__":
     except ValidationError as e:
         for error in e.errors():
             print(error['msg'])
+
