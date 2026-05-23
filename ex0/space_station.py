@@ -8,7 +8,7 @@ class SpaceStation(BaseModel):
     crew_size: int = Field(ge=1, le=20)
     power_level: float = Field(ge=0.0, le=100.0)
     oxygen_level: float = Field(ge=0.0, le=100.0)
-    last_maintenance: datetime
+    last_maintenance: datetime = Field()
     is_operational: bool = Field(default=True)
     notes: str | None = Field(default=None, max_length=200)
 
@@ -25,7 +25,7 @@ def main() -> None:
             crew_size=6,
             power_level=85.5,
             oxygen_level=99,
-            last_maintenance=datetime.fromisoformat("2026-04-20T14:30:00")
+            last_maintenance="2026-04-20T14:30:00"
             )
 
         print(f"ID: {station.station_id}")
@@ -44,7 +44,7 @@ def main() -> None:
             crew_size=30,
             power_level=85.5,
             oxygen_level=92.3,
-            last_maintenance=datetime.fromisoformat("2026-04-20T14:30:00")
+            last_maintenance="2026-04-20T14:30:00"
             )
 
     except ValidationError as e:

@@ -12,9 +12,9 @@ class ContactType(Enum):
 
 class AlienContact(BaseModel):
     contact_id: str = Field(min_length=5, max_length=15)
-    timestamp: datetime
+    timestamp: datetime = Field()
     location: str = Field(min_length=3, max_length=100)
-    contact_type: ContactType
+    contact_type: ContactType = Field()
     signal_strength: float = Field(ge=0.0, le=10.0)
     duration_minutes: int = Field(ge=1, le=1440)
     witness_count: int = Field(ge=1, le=100)
@@ -60,7 +60,7 @@ if __name__ == "__main__":
         station = AlienContact(
             contact_id="AC_2024_001",
             contact_type=ContactType.TELEPATHIC,
-            timestamp=datetime.fromisoformat("2026-04-20T14:30:00"),
+            timestamp="2026-04-20T14:30:00",
             location="Area 51, Nevada",
             signal_strength=8.5,
             duration_minutes=45,
@@ -84,7 +84,7 @@ if __name__ == "__main__":
         station = AlienContact(
             contact_id="AC_2024_001",
             contact_type=ContactType.TELEPATHIC,
-            timestamp=datetime.fromisoformat("2026-04-20T14:30:00"),
+            timestamp="2026-04-20T14:30:00",
             location="Area 51, Nevada",
             signal_strength=8.5,
             duration_minutes=45,

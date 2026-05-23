@@ -25,7 +25,7 @@ class SpaceMission(BaseModel):
     mission_id: str = Field(min_length=5, max_length=15)
     mission_name: str = Field(min_length=3, max_length=100)
     destination: str = Field(min_length=3, max_length=50)
-    launch_date: datetime
+    launch_date: datetime = Field()
     duration_days: int = Field(ge=1, le=3650)
     crew: list[CrewMember] = Field(min_length=1, max_length=12)
     mission_status: str = Field(default="planned")
@@ -104,7 +104,7 @@ if __name__ == "__main__":
             mission_name="Mars Colony Establishment",
             mission_id="M2024_MARS",
             destination="Mars",
-            launch_date=datetime.fromisoformat("2026-04-20T14:30:00"),
+            launch_date="2026-04-20T14:30:00",
             duration_days=900,
             budget_millions=2500.0,
             crew=[member_one, member_two, member_three]
@@ -116,7 +116,7 @@ if __name__ == "__main__":
         print(f"Budget: ${mission_one.budget_millions}M")
         print(f"Crew size: {len(mission_one.crew)}")
         for member in mission_one.crew:
-            print(f"- {member.name} ({member.rank}) - {member.specialization}")
+            print(f"- {member.name} ({member.rank.name}) - {member.specialization}")
     except ValidationError as e:
         for error in e.errors():
             print(error['msg'])
